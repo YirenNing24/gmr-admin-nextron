@@ -69,7 +69,7 @@ const CreateCard = () => {
         </TabPanel>
       </TabContext>
     </Card>
-  )
+  )d
 }
 
 export default CreateCard
