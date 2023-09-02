@@ -59,7 +59,7 @@ const CreateCard = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Create Card</TabName>
+                <TabName>Create Cards</TabName>
               </Box>
             }
           />
@@ -69,7 +69,7 @@ const CreateCard = () => {
         </TabPanel>
       </TabContext>
     </Card>
-  )d
+  )
 }
 
 export default CreateCard
