@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 
 // ** MUI Imports
@@ -19,12 +19,16 @@ import FormControl from '@mui/material/FormControl'
 
 // ** Userstore and API
 import userStore from '../zustand/UserStore';
+import { contracts } from '../../renderer/server/contracts';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const ListCard = ({ isOpen, onClose }) => {
-    const [contracts, setContracts] = useState({ })
+const ListCard = ({ cardAddress, tokenId, isOpen, onClose }) => {
+    console.log(cardAddress)
+    // ** States
+    const [contractAddress, setContractAddress] = useState([])
+    const [loading, setLoading] = useState(true);
 
     // ** Hooks
     const { register, handleSubmit, formState: { errors } } = useForm()
@@ -36,11 +40,28 @@ const ListCard = ({ isOpen, onClose }) => {
       console.log(data)
 
     }
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const allContracts = await contracts();
+          setContractAddress(allContracts);
+          setLoading(false); 
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchData(); 
+    }, []);
+
+      if (loading) {
+        return
+      }
     
 
   return (
-    <div>
-
+    <Fragment>
       <Dialog
         open={isOpen}
         TransitionComponent={Transition}
@@ -50,44 +71,50 @@ const ListCard = ({ isOpen, onClose }) => {
         <DialogTitle sx={{textAlign: 'center'}}>{"Post card to store?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-
-          <Grid item xs={12} sm={12} sx={{marginTop: '5px'}}>
-            <TextField sx={{marginBottom: '10px'}} fullWidth label='Card contract address'
-              {...register('assetContractAddress')}/>
-            <TextField sx={{marginBottom: '10px'}} fullWidth label='Token ID' 
-              {...register('tokenId')}/>
-          <TextField sx={{marginBottom: '10px'}} fullWidth label='Quantity' 
-              {...register('quantity')}/>
-            <FormControl fullWidth sx={{marginBottom: '10px'}} >
-              <InputLabel>Token</InputLabel>
-              <Select name='skill' label='Token' defaultValue={'doubleUp'}
-                {...register('currencyContractAddress', { required: 'Skill is required' })}>
-                  <MenuItem value='doubleUp'>$BEATS</MenuItem>
-                  <MenuItem value='heal'>$KMR</MenuItem>
-                  <MenuItem value='add'>$THUMPIN</MenuItem>
-                  <MenuItem value='attack'>$XRP</MenuItem>
-                  <MenuItem value='none'>$MATIC</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField sx={{marginBottom: '10px'}} fullWidth  label='Price' type='number'
-              {...register('pricePerToken')}/>
-            <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale start date' focused
-              {...register('startTimestamp')}/>
-            <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale end date' focused
-              {...register('endTimestamp')}/>
-            <TextField sx={{marginBottom: '10px'}} type='bool' fullWidth label='Reserved listing' defaultValue='false'
-              {...register('isReservedListing')}/>
             
-          </Grid>
+            <Grid item xs={12} sm={12} sx={{marginTop: '5px'}}>
+              <TextField sx={{marginBottom: '10px'}} fullWidth label='Card contract address' value={cardAddress} placeholder='Card contract address'
+                {...register('assetContractAddress')}/>
+
+              <TextField sx={{marginBottom: '10px'}} fullWidth label='Token ID' value={tokenId} placeholder='Token ID' 
+                {...register('tokenId')}/>
+
+            <TextField sx={{marginBottom: '10px'}} fullWidth label='Quantity' value={1} placeholder='1' 
+                {...register('quantity')}/>
+
+              <FormControl fullWidth sx={{marginBottom: '10px'}} >
+                <InputLabel>Token</InputLabel>
+                <Select name='skill' label='Token' defaultValue={'doubleUp'}
+                  {...register('currencyContractAddress', { required: 'Skill is required' })}>
+                    <MenuItem value={contractAddress[0].beatsAddress}> $BEATS </MenuItem>
+                    <MenuItem value={contractAddress[0].kmrAddress}> $KMR </MenuItem>
+                    <MenuItem value={contractAddress[0].thumpinAddress}> $THUMPIN </MenuItem>
+                    <MenuItem value='matic'> $MATIC </MenuItem>
+                </Select>
+              </FormControl>
+
+              <TextField sx={{marginBottom: '10px'}} fullWidth  label='Price' type='number'
+                {...register('pricePerToken')}/>
+
+              <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale start date' focused
+                {...register('startTimestamp')}/>
+
+              <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale end date' focused
+                {...register('endTimestamp')}/>
+
+              <TextField sx={{marginBottom: '10px'}} type='bool' fullWidth label='Reserved listing' defaultValue='false'
+                {...register('isReservedListing')}/>
+              
+            </Grid>
 
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button  onClick={''}>Cancel</Button>
+          <Button  onClick={onClose}>Cancel</Button>
           <Button variant='contained' onClick={handleSubmit(onSubmit)}>Save</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   );
 }
 

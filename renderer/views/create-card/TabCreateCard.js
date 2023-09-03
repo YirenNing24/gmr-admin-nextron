@@ -57,28 +57,34 @@ const TabCreateCard = () => {
   const username = user.newUser?.safeProperties.username
 
   const onSubmit = async (data) => {
-    const {
-      description, era, 
-      experience, healboost, 
-      level, name, position, 
-      position2 , quantity, 
-      rarity, scoreboost, skill, tier} = data
+    setIsUploading(true);
 
-      
-    const metadata = {
-      name, era, 
-      description,scoreboost, 
-      healboost, level,
-      experience, rarity,
-      tier, position, 
-      position2, skill,
+    try {
+      const {
+        description, era, 
+        experience, healboost, 
+        level, name, position, 
+        position2 , quantity, 
+        rarity, scoreboost, skill, tier } = data
+  
+      const metadata = {
+        name, era, 
+        description,scoreboost, 
+        healboost, level,
+        experience, rarity,
+        tier, position, 
+        position2, skill,
+      }
+      const supply = parseInt(quantity)
+      const base64Image = base64
+      const uploader = username
+
+      await createCard(metadata, supply, base64Image, uploader); 
+    } catch (error) {
+      console.error('Error creating card:', error);
+    } finally {
+      setIsUploading(false);
     }
-    
-    const supply = parseInt(quantity)
-    const base64Image = base64
-    const uploader = username
-    console.log(base64)
-    await createCard(metadata, supply, base64Image, uploader)
   };
  
   const onChange = (file) => {
@@ -86,11 +92,11 @@ const TabCreateCard = () => {
     const { files } = file.target;
     if (files && files.length !== 0) {
       reader.onload = () => {
-        const base64String = reader.result.split(',')[1]; // Extract the base64 data part
-        setBase64Image(base64String); // Set the base64 image string in your state
-        setImgSrc(reader.result); // Set the data URL in your state
+        const base64String = reader.result.split(',')[1]; 
+        setBase64Image(base64String); 
+        setImgSrc(reader.result); 
       };
-      reader.readAsDataURL(files[0]); // Read the file as a base64 data URL
+      reader.readAsDataURL(files[0]);
     }
   };
 
@@ -214,8 +220,8 @@ const TabCreateCard = () => {
               {errors.quantity && <p>{errors.quantity.message}</p>}
           </Grid>
           <Grid item xs={12}>
-            <Button type='submit' variant='contained' sx={{ marginRight: 3.5 }}>
-              Submit
+            <Button type='submit' variant='contained' sx={{ marginRight: 3.5 }} disabled={isUploading}>
+              {isUploading ? 'Please Wait...' : 'Submit'}
             </Button>
             <Button type='reset' variant='outlined'>
               Reset

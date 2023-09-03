@@ -27,6 +27,8 @@ const CardBasic = () => {
       }
     };
 
+
+
    
     useEffect(() => {
       const fetchData = async () => {
@@ -42,6 +44,8 @@ const CardBasic = () => {
 
       fetchData(); // Call fetchData when the component mounts
     }, []);
+
+    console.log(cardAll.cardAddress)
 
   
     return (
@@ -66,7 +70,8 @@ const CardBasic = () => {
                 name={card?.metadata.name}
                 tokenId={card?.metadata.id}
                 description={card?.metadata.description}
-                skill={card?.metadata.skill} />
+                skill={card?.metadata.skill}
+                cardAddress={card?.metadata.cardAddress} />
 
             </Grid>
             ))}

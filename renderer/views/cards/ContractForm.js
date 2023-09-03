@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 
 // ** MUI Imports
@@ -13,23 +13,73 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 
+// ** MUI Imports
+import { updateContracts, contracts } from '../../../renderer/server/contracts';
 
 const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMarketPlace }) => {
   // ** States
+  const [contractAddress, setContractAddress] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false)
 
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = async (data) => {
-    console.log(data)
+    setIsUploading(true);
+    try {
+      const {
+        beatsAddress,
+        cardAddress,
+        cardMarketplaceAddress,
+        kmrAddress,
+        packAddress,
+        packMarketplaceAddress,
+        thumpinAddress
+      } = data;
 
-  }
+      const contracts = {
+        beatsAddress,
+        cardAddress,
+        cardMarketplaceAddress,
+        kmrAddress,
+        packAddress,
+        packMarketplaceAddress,
+        thumpinAddress
+      };
+
+      await updateContracts(contracts); 
+    } catch (error) {
+      console.error('Error updating contract addresses', error);
+    } finally {
+      setIsUploading(false);
+  };
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allContracts = await contracts();
+        setContractAddress(allContracts);
+        setLoading(false); // Mark loading as false once data is fetched
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData(); // Call fetchData when the component mounts
+  }, []);
+    // Conditional rendering based on loading state
+    if (loading) {
+      return
+    }
 
   return (
     <Card>
       <CardHeader title='Contract addresses and other chain constants' titleTypographyProps={{ variant: 'h6' }} />
       <Divider sx={{ margin: 0 }} />
       <form onSubmit={e => e.preventDefault()}>
+
         <CardContent>
           <Grid container spacing={5}>
             <Grid item xs={12}>
@@ -37,20 +87,21 @@ const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMa
                 1. Token Contract Addresses
               </Typography>
             </Grid>
+            
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='$BEATS' defaultValue={"tae"}
-                {...register('beatstAddress')} />
+              <TextField fullWidth label='$BEATS' defaultValue={contractAddress[0].beatsAddress}
+                {...register('beatsAddress')} />
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='$KMR' 
+              <TextField fullWidth label='$KMR' defaultValue={contractAddress[0].kmrAddress}
                 {...register('kmrAddress')} />
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='$THUMPIN'
+              <TextField fullWidth label='$THUMPIN' defaultValue={contractAddress[0].thumpinAddress}
                 {...register('thumpinAddress')} />
             </Grid>
-
-
             <Grid item xs={12}>
               <Divider sx={{ marginBottom: 0 }} />
             </Grid>
@@ -60,14 +111,13 @@ const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMa
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='Card address' placeholder='Leonard' 
+              <TextField fullWidth label='Card address' defaultValue={contractAddress[0].cardAddress}
                 {...register('cardAddress')} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='Card marketplace address' placeholder='Carter' 
+              <TextField fullWidth label='Card marketplace address' defaultValue={contractAddress[0].cardMarketplaceAddress}
                 {...register('cardMarketplaceAddress')} />
             </Grid>
-
 
             {/* <Grid item xs={12} sm={6}>
               <DatePicker
@@ -80,24 +130,26 @@ const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMa
                 onChange={date => setDate(date)}
               />
             </Grid> */}
+
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='Pack address' placeholder='+1-123-456-8790' 
+              <TextField fullWidth label='Pack address' defaultValue={contractAddress[0].packAddress}
                 {...register('packAddress')} />
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth label='Pack marketplace address' placeholder='+1-123-456-8790' 
+              <TextField fullWidth label='Pack marketplace address' defaultValue={contractAddress[0].packMarketplaceAddress} 
                 {...register('packMarketplaceAddress')}/>
             </Grid>
+            
           </Grid>
         </CardContent>
+   
         <Divider sx={{ margin: 0 }} />
         <CardActions>
-          <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={handleSubmit(onSubmit)}>
-            Submit
+          <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={handleSubmit(onSubmit)} disabled={isUploading}>
+          {isUploading ? 'Saving...' : 'Submit'}
           </Button>
-          <Button size='large' color='secondary' variant='outlined' >
-            Cancel
-          </Button>
+
         </CardActions>
       </form>
     </Card>
