@@ -65,7 +65,7 @@ const TabCreateCard = () => {
         experience, healboost, 
         level, name, position, 
         position2 , quantity, 
-        rarity, scoreboost, skill, tier } = data
+        rarity, scoreboost, skill, tier, star, breakthrough } = data
   
       const metadata = {
         name, era, 
@@ -73,7 +73,7 @@ const TabCreateCard = () => {
         healboost, level,
         experience, rarity,
         tier, position, 
-        position2, skill,
+        position2, skill, star, breakthrough
       }
       const supply = parseInt(quantity)
       const base64Image = base64
@@ -138,31 +138,37 @@ const TabCreateCard = () => {
             {...register('description', { required: 'Description is required' })}/>
             {errors.description && <p>{errors.description.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField fullWidth name='era' label='Era' placeholder='Lovedive' 
             {...register('era', { required: 'Era is required' })}/>
             {errors.era && <p>{errors.era.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField fullWidth name='position' label='Position1' placeholder='Visual' 
             {...register('position', { required: 'Position is required' })}/>
             {errors.position && <p>{errors.position.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField fullWidth name='position2' label='Position2' placeholder='Visual' 
             {...register('position2', { required: 'Position2 is required' })}/>
             {errors.position2 && <p>{errors.position2.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField type='number' fullWidth name='scoreboost' label='Score Boost' placeholder='10'
               {...register('scoreboost', { required: 'Scoreboost is required' })}/>
               {errors.scoreboost && <p>{errors.scoreboost.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField type='number' fullWidth name='healboost' label='Heal Boost' placeholder='10' 
               {...register('healboost', { required: 'Healboost is required' })}/>
               {errors.heal && <p>{errors.healboost.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Skill</InputLabel>
@@ -177,6 +183,7 @@ const TabCreateCard = () => {
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Rarity</InputLabel>
@@ -191,6 +198,7 @@ const TabCreateCard = () => {
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Tier</InputLabel>
@@ -204,21 +212,50 @@ const TabCreateCard = () => {
               </Select>
             </FormControl>
           </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Stars</InputLabel>
+              <Select name='stars' label='Stars' defaultValue='1'
+                  {...register('stars', { required: 'Stars is required' })}>
+                <MenuItem value='1'>1</MenuItem>
+                <MenuItem value='2'>2</MenuItem>
+                <MenuItem value='3'>3</MenuItem>
+                <MenuItem value='4'>4</MenuItem>
+                <MenuItem value='5'>5</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Breakthrough</InputLabel>
+              <Select name='Breakthrough' label='Breakthrough' defaultValue='false'
+                  {...register('breakthrough', { required: 'Breakthrough is required' })}>
+                <MenuItem value='true'>true</MenuItem>
+                <MenuItem value='false'>false</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField type='number' name='level' fullWidth label='Level' placeholder='0' defaultValue="1"
               {...register('level', { required: 'Level is required' })}/>
               {errors.level && <p>{errors.level.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField type='number' name='experience' fullWidth label='Experience' placeholder='0' defaultValue="0"
               {...register('experience', { required: 'Experience is required' })}/>
               {errors.experience && <p>{errors.experience.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField type='number' name='quantity' fullWidth label='Quantity' placeholder='100'
               {...register('quantity', { required: 'Quantity is required' })}/>
               {errors.quantity && <p>{errors.quantity.message}</p>}
           </Grid>
+
           <Grid item xs={12}>
             <Button type='submit' variant='contained' sx={{ marginRight: 3.5 }} disabled={isUploading}>
               {isUploading ? 'Please Wait...' : 'Submit'}

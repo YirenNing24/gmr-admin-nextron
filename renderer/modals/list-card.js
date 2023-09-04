@@ -53,7 +53,8 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
         startTimestamp,
         endTimestamp,
         isReservedListing,
-        id   
+        id,
+        lister: username   
       }
 
       console.log(listing)
@@ -92,19 +93,20 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
           <DialogContentText id="alert-dialog-slide-description">
             
             <Grid item xs={12} sm={12} sx={{marginTop: '5px'}}>
+              
               <TextField sx={{marginBottom: '10px'}} fullWidth label='Card contract address' value={cardAddress} placeholder='Card contract address'
-                {...register('assetContractAddress')}/>
+                {...register('assetContractAddress', { required: 'Card Contract Address is required' })}/>
 
               <TextField sx={{marginBottom: '10px'}} fullWidth label='Token ID' value={tokenId} placeholder='Token ID' 
-                {...register('tokenId')}/>
+                {...register('tokenId', { required: 'Token ID is required' })}/>
 
             <TextField sx={{marginBottom: '10px'}} fullWidth label='Quantity' value={1} placeholder='1' 
-                {...register('quantity')}/>
+                {...register('quantity', { required: 'Quantity is required' })}/>
 
               <FormControl fullWidth sx={{marginBottom: '10px'}} >
                 <InputLabel>Token</InputLabel>
                 <Select name='skill' label='Token' defaultValue={'doubleUp'}
-                  {...register('currencyContractAddress', { required: 'Skill is required' })}>
+                  {...register('currencyContractAddress', { required: 'Token is required' })}>
                     <MenuItem value={contractAddress[0].beatsAddress}> $BEATS </MenuItem>
                     <MenuItem value={contractAddress[0].kmrAddress}> $KMR </MenuItem>
                     <MenuItem value={contractAddress[0].thumpinAddress}> $THUMPIN </MenuItem>
@@ -113,16 +115,16 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
               </FormControl>
 
               <TextField sx={{marginBottom: '10px'}} fullWidth  label='Price' type='number'
-                {...register('pricePerToken')}/>
+                {...register('pricePerToken', { required: 'Price is required' })}/>
 
               <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale start date' focused
-                {...register('startTimestamp')}/>
+                {...register('startTimestamp', { required: 'Sale start date is required' })}/>
 
               <TextField sx={{marginBottom: '10px'}} type='date' fullWidth label='Sale end date' focused
-                {...register('endTimestamp')}/>
+                {...register('endTimestamp', { required: 'Sale end date is required' })}/>
 
               <TextField sx={{marginBottom: '10px'}} type='bool' fullWidth label='Reserved listing' defaultValue='false'
-                {...register('isReservedListing')}/>
+                {...register('isReservedListing', { required: 'Reserved listing is required' })}/>
               
             </Grid>
 
