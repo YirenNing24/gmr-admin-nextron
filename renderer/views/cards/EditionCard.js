@@ -12,7 +12,8 @@ import CardContent from '@mui/material/CardContent'
 // ** Modals
 import ListCard from '../../modals/list-card'
 
-const EditionCard = ({image, name, tokenId, description, skill, cardAddress }) => {
+const EditionCard = ({image, name, tokenId, description, skill, cardAddress, id }) => {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -21,7 +22,7 @@ const EditionCard = ({image, name, tokenId, description, skill, cardAddress }) =
 
   return (
     <Card>
-       <ListCard cardAddress={cardAddress} tokenId={tokenId} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+       <ListCard cardAddress={cardAddress} tokenId={tokenId} id={id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <CardMedia sx={{ height: '20rem' }} image={image}/>
       <CardContent sx={{ padding: theme => `${theme.spacing(3, 5.25, 4)} !important` }}>
         <Typography variant='body1' sx={{ marginBottom: 2 }}>

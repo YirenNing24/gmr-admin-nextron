@@ -71,7 +71,8 @@ const CardBasic = () => {
                 tokenId={card?.metadata.id}
                 description={card?.metadata.description}
                 skill={card?.metadata.skill}
-                cardAddress={card?.metadata.cardAddress} />
+                cardAddress={card?.metadata.cardAddress}
+                id={card?.id} />
 
             </Grid>
             ))}

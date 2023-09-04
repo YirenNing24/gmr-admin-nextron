@@ -19,13 +19,15 @@ import FormControl from '@mui/material/FormControl'
 
 // ** Userstore and API
 import userStore from '../zustand/UserStore';
+import { listCard } from '../../renderer/server/listcard';
 import { contracts } from '../../renderer/server/contracts';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const ListCard = ({ cardAddress, tokenId, isOpen, onClose }) => {
-    console.log(cardAddress)
+const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
+
+
     // ** States
     const [contractAddress, setContractAddress] = useState([])
     const [loading, setLoading] = useState(true);
@@ -37,8 +39,25 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose }) => {
 
 
     const onSubmit = async (data) => {
-      console.log(data)
+      const { 
+        assetContractAddress, tokenId, 
+        currencyContractAddress, pricePerToken, 
+        startTimestamp, endTimestamp, isReservedListing } = data 
 
+      const listing = {
+        assetContractAddress,
+        tokenId,
+        quantity: 1,
+        currencyContractAddress,
+        pricePerToken,
+        startTimestamp,
+        endTimestamp,
+        isReservedListing,
+        id   
+      }
+
+      console.log(listing)
+      await listCard(listing)
     }
 
     useEffect(() => {

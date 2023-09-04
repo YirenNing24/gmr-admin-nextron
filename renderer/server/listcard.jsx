@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const createCard = async (metadata, supply, base64Image, uploader) => {
-    const url = 'http://localhost:8081/admin/create-card';
+export const listCard = async (metadata, supply, base64Image, uploader) => {
+    const url = 'http://localhost:8081/admin/list-card';
     try {
         const response = await axios.post(
             url,
