@@ -39,7 +39,7 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
     let currencyName = '';
     switch (currencyContractAddress) {
       case contractAddress[0].beatsAddress:
-        currencyName = '$BEATS';
+        currencyName = 'BEATS';
         break;
       case contractAddress[0].kmrAddress:
         currencyName = 'KMR';
