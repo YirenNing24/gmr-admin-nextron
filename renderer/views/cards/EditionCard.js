@@ -12,8 +12,7 @@ import CardContent from '@mui/material/CardContent'
 // ** Modals
 import ListCard from '../../modals/list-card'
 
-const EditionCard = ({image, name, tokenId, description, skill, cardAddress, id }) => {
-
+const EditionCard = ({ image, name, tokenId, description, skill, cardAddress, id, lister, price }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -22,22 +21,29 @@ const EditionCard = ({image, name, tokenId, description, skill, cardAddress, id 
 
   return (
     <Card>
-       <ListCard cardAddress={cardAddress} tokenId={tokenId} id={id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <CardMedia sx={{ height: '20rem' }} image={image}/>
+      <ListCard cardAddress={cardAddress} tokenId={tokenId} id={id} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <CardMedia sx={{ height: '20rem' }} image={image} />
       <CardContent sx={{ padding: theme => `${theme.spacing(3, 5.25, 4)} !important` }}>
         <Typography variant='body1' sx={{ marginBottom: 2 }}>
           {name}
         </Typography>
-        <Typography variant='body2' sx={{ marginBottom: 2 }}>{skill}</Typography>
+        <Typography variant='body2' sx={{ marginBottom: 2 }}>
+          {skill}
+        </Typography>
         <Typography variant='body2'>
-          {description}
+          Posted by: {lister}
         </Typography>
       </CardContent>
-      <Button variant='contained' sx={{ py: 2.5, width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }} onClick={openModal}>
-        List to store
+      <Button
+        variant='contained'
+        sx={{ py: 2.5, width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+        onClick={openModal}
+        disabled={lister !== ''} // Disable the button if lister has a value
+      >
+        {lister !== '' ? price : 'List to store'} BEATS
       </Button>
     </Card>
-  )
-}
+  );
+};
 
 export default EditionCard

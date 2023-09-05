@@ -50,7 +50,7 @@ const TabCreateCard = () => {
   const [imgSrc, setImgSrc] = useState('https://i.pinimg.com/1200x/07/c7/0f/07c70f7c0995496b522ca19513167016.jpg')
   const [base64, setBase64Image] = useState('')
   const [isUploading, setIsUploading] = useState(false)
-  
+
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
   const user = userStore();
