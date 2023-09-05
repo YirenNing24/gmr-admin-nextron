@@ -27,7 +27,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
 
-
     // ** States
     const [contractAddress, setContractAddress] = useState([])
     const [loading, setLoading] = useState(true);
@@ -37,7 +36,25 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
     const user = userStore();
     const username = user.newUser?.safeProperties.username
 
-
+    let currencyName = '';
+    switch (currencyContractAddress) {
+      case contractAddress[0].beatsAddress:
+        currencyName = '$BEATS';
+        break;
+      case contractAddress[0].kmrAddress:
+        currencyName = 'KMR';
+        break;
+      case contractAddress[0].thumpinAddress:
+        currencyName = 'THUMPIN';
+        break;
+      case 'matic':
+        currencyName = 'MATIC';
+        break;
+      default:
+        currencyName = 'Unknown';
+        break;
+    }
+    
     const onSubmit = async (data) => {
       const { 
         assetContractAddress, tokenId, 
@@ -45,6 +62,8 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
         startTimestamp, endTimestamp, isReservedListing } = data 
 
       const listing = {
+        currencyName,
+        tokenName,
         assetContractAddress,
         tokenId,
         quantity: 1,
@@ -93,7 +112,7 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
           <DialogContentText id="alert-dialog-slide-description">
             
             <Grid item xs={12} sm={12} sx={{marginTop: '5px'}}>
-              
+
               <TextField sx={{marginBottom: '10px'}} fullWidth label='Card contract address' value={cardAddress} placeholder='Card contract address'
                 {...register('assetContractAddress', { required: 'Card Contract Address is required' })}/>
 
