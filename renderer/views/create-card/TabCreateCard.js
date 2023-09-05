@@ -54,6 +54,8 @@ const TabCreateCard = () => {
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
   const user = userStore();
+
+  const editionAddress = user.contracts[0]?.cardAddress
   const username = user.newUser?.safeProperties.username
 
   const onSubmit = async (data) => {
@@ -79,7 +81,7 @@ const TabCreateCard = () => {
       const base64Image = base64
       const uploader = username
 
-      await createCard(metadata, supply, base64Image, uploader); 
+      await createCard(metadata, supply, base64Image, uploader, editionAddress); 
     } catch (error) {
       console.error('Error creating card:', error);
     } finally {

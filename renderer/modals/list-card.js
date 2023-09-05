@@ -36,34 +36,35 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
     const user = userStore();
     const username = user.newUser?.safeProperties.username
 
-    let currencyName = '';
-    switch (currencyContractAddress) {
-      case contractAddress[0].beatsAddress:
-        currencyName = 'BEATS';
-        break;
-      case contractAddress[0].kmrAddress:
-        currencyName = 'KMR';
-        break;
-      case contractAddress[0].thumpinAddress:
-        currencyName = 'THUMPIN';
-        break;
-      case 'matic':
-        currencyName = 'MATIC';
-        break;
-      default:
-        currencyName = 'Unknown';
-        break;
-    }
+
     
     const onSubmit = async (data) => {
       const { 
         assetContractAddress, tokenId, 
         currencyContractAddress, pricePerToken, 
-        startTimestamp, endTimestamp, isReservedListing } = data 
+        startTimestamp, endTimestamp, isReservedListing } = data;
+
+      let currencyName = '';
+      switch (currencyContractAddress) {
+        case contractAddress[0].beatsAddress:
+          currencyName = 'BEATS';
+          break;
+        case contractAddress[0].kmrAddress:
+          currencyName = 'KMR';
+          break;
+        case contractAddress[0].thumpinAddress:
+          currencyName = 'THUMPIN';
+          break;
+        case 'matic':
+          currencyName = 'MATIC';
+          break;
+        default:
+          currencyName = 'Unknown';
+          break;
+      }
 
       const listing = {
         currencyName,
-        tokenName,
         assetContractAddress,
         tokenId,
         quantity: 1,

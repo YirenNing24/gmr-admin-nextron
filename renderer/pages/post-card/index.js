@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import ButtonGroup from '@mui/material/ButtonGroup'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import ToggleButton from '@mui/material/ToggleButton'
 
@@ -12,41 +11,31 @@ import ToggleButton from '@mui/material/ToggleButton'
 import EditionCard from '../../../renderer/views/cards/EditionCard'
 import { Button } from '@mui/material'
 
-
-
-// ** Store and API
+// ** Userstore and API
 import { updateCardList, cardListAll, cardListPosted, cardListSold } from '../../server/stocks'
+import userStore from '../../../renderer/zustand/UserStore'
 
 const CardBasic = () => {
     const [ isUpdating, setIsUpdating ] = useState(false);
     const [ cardAll, setCardAll ] = useState([]);
-    const [alignment, setAlignment] = useState('Unlisted');
-  
+    const [alignment, setAlignment] = useState('Owned');
+
+    const user = userStore();
+    const editionAddress = user.contracts?.[0]?.cardAddress;
+ 
     const cardListUpdate = async () => {
       try {
-        setIsUpdating(true); // Set isUpdating to true when the button is clicked
-        await updateCardList();
+        setIsUpdating(true);
+        await updateCardList(editionAddress);
       } finally {
         setIsUpdating(false);
       }
     };
 
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const allCards = await cardListAll();
-          setCardAll(allCards); 
-        } catch (error) {
-          console.error(error);
-        }
-      };
-      fetchData();
-    }, []);
-
     const handleChange = async (event, newAlignment) => {
       setAlignment(newAlignment);
     
-      if (newAlignment === 'Unlisted') {
+      if (newAlignment === 'Owned') {
         const allCards = await cardListAll();
         setCardAll(allCards); 
       } else if (newAlignment === 'Posted') {
@@ -58,7 +47,17 @@ const CardBasic = () => {
       }
     };
 
-    console.log(cardAll)
+    useEffect(() => {
+      const fetchData = async () => {
+        const allCards = await cardListAll();
+        setCardAll(allCards);
+      };
+    
+      fetchData(); 
+    }, []); 
+    
+
+
     return (
       <Grid container spacing={6}>
         <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -82,7 +81,7 @@ const CardBasic = () => {
                 sx={{ marginLeft: '58%' }}
                 onChange={handleChange}
               >
-              <ToggleButton value="Unlisted">Unlisted</ToggleButton>
+              <ToggleButton value="Owned">Owned</ToggleButton>
               <ToggleButton value="Posted">Posted</ToggleButton>
               <ToggleButton value="Sold">Sold</ToggleButton>
 
@@ -101,7 +100,8 @@ const CardBasic = () => {
                 cardAddress={card?.metadata.cardAddress}
                 id={card?.id}
                 lister={card?.lister}
-                price={card?.price} />
+                price={card?.price}
+                currencyName={card?.metadata.currencyName} />
                 
             </Grid>
             ))}

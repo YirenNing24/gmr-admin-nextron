@@ -5,7 +5,9 @@ const userStore = create(
   persist(
     (set) => ({
       user: null,
-      setUser: (newUser) => set({ newUser }), // Pass newUser directly to set
+      contracts: null, 
+      setUser: (newUser) => set({ user: newUser }), 
+      setContracts: (newContracts) => set({ contracts: newContracts })
     }),
     {
       name: "user-storage",

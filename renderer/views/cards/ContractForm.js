@@ -13,10 +13,11 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
 
-// ** MUI Imports
+// ** Userstore and API Imports
 import { updateContracts, contracts } from '../../../renderer/server/contracts';
+import userStore from '../../../renderer/zustand/UserStore';
 
-const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMarketPlace }) => {
+const ContractForm = () => {
   // ** States
   const [contractAddress, setContractAddress] = useState([])
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMa
 
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
+  const { setContracts } = userStore()
 
   const onSubmit = async (data) => {
     setIsUploading(true);
@@ -48,28 +50,28 @@ const ContractForm = ({ beats, kmr, thumpin, card, cardMarketPlace, pack, packMa
         thumpinAddress
       };
 
-      await updateContracts(contracts); 
-    } catch (error) {
-      console.error('Error updating contract addresses', error);
-    } finally {
-      setIsUploading(false);
-  };
+        await updateContracts(contracts); 
+      } catch (error) {
+        console.error('Error updating contract addresses', error);
+      } finally {
+        setIsUploading(false);
+    };
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const allContracts = await contracts();
+        setContracts(allContracts)
         setContractAddress(allContracts);
-        setLoading(false); // Mark loading as false once data is fetched
+        setLoading(false); 
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchData(); // Call fetchData when the component mounts
+    fetchData(); 
   }, []);
-    // Conditional rendering based on loading state
     if (loading) {
       return
     }

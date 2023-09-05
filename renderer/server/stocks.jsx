@@ -1,10 +1,11 @@
 import axios from "axios";
 
-export const updateCardList = async () => {
+export const updateCardList = async (editionAddress) => {
   const url = 'http://localhost:8081/admin/card-list-update';
   try {
     const response = await axios.put(url, {
-      withCredentials: true
+      withCredentials: true,
+      editionAddress
     });
     console.log("Response:", response.data);
     return response.data;
@@ -13,6 +14,7 @@ export const updateCardList = async () => {
     throw error;
   }
 };
+
 
 
 export const cardListAll = async () => {
