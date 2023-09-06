@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-export const listCard = async (metadata) => {
+export const listCard = async (listing) => {
     const url = 'http://localhost:8081/admin/list-card';
     try {
         const response = await axios.post(
             url,
             {
-                metadata,
+                listing
             },
             {
                 withCredentials: true
@@ -19,5 +19,3 @@ export const listCard = async (metadata) => {
         throw error;
     }
 };
-
-

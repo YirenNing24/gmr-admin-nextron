@@ -23,7 +23,9 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** API & Store
 import { login } from '../../../../renderer/server/auth'
+import { contracts } from '../../../../renderer/server/contracts'
 import userStore from '../../../../renderer/zustand/UserStore'
+
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -59,7 +61,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 const LoginPage = () => {
   // ** State
   const [values, setValues] = useState({password: '', showPassword: false })
-  const {user, setUser} = userStore();
+  const {user, setUser, setContracts} = userStore();
 
   // ** Hook
   const theme = useTheme()
@@ -80,8 +82,13 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     const { username, password } = data;
-    const signIn = await login(username, password);
+
+    const [signIn, allContracts] = await Promise.all([ 
+      await login(username, password), 
+      await contracts() ])
+      
     setUser(signIn)
+    setContracts(allContracts)
      if (signIn.success) {
          router.push("/")
      }

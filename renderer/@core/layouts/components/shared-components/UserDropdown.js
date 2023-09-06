@@ -24,7 +24,7 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+
 
 
 // ** Styled Components
@@ -53,11 +53,11 @@ const UserDropdown = () => {
          router.push('/pages/login');
      }
    }, []);
-
+  
   useEffect(() => {
     if (user) {
-        setUsername(user.newUser?.safeProperties.username);
-        setAdmin(user.newUser?.safeProperties.admin)
+        setUsername(user.user?.safeProperties.username);
+        setAdmin(user.user?.safeProperties.admin)
     }
 }, [user]);
 

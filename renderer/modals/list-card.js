@@ -26,7 +26,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
-
+    console.log(cardAddress)
     // ** States
     const [contractAddress, setContractAddress] = useState([])
     const [loading, setLoading] = useState(true);
@@ -34,7 +34,8 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
     // ** Hooks
     const { register, handleSubmit, formState: { errors } } = useForm()
     const user = userStore();
-    const username = user.newUser?.safeProperties.username
+    const username = user.user?.safeProperties.username
+    const cardMarketplaceAddress = user?.contracts.cardMarketplaceAddress
 
 
     
@@ -74,7 +75,8 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
         endTimestamp,
         isReservedListing,
         id,
-        lister: username   
+        lister: username,
+        cardMarketplaceAddress 
       }
 
       console.log(listing)

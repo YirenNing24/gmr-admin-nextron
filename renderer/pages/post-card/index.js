@@ -14,15 +14,16 @@ import { Button } from '@mui/material'
 // ** Userstore and API
 import { updateCardList, cardListAll, cardListPosted, cardListSold } from '../../server/stocks'
 import userStore from '../../../renderer/zustand/UserStore'
-
-const CardBasic = () => {
+const PostCard = () => {
     const [ isUpdating, setIsUpdating ] = useState(false);
     const [ cardAll, setCardAll ] = useState([]);
     const [alignment, setAlignment] = useState('Owned');
 
     const user = userStore();
-    const editionAddress = user.contracts?.[0]?.cardAddress;
- 
+    const editionAddress = user?.contracts?.cardAddress;
+
+    console.log(editionAddress)
+
     const cardListUpdate = async () => {
       try {
         setIsUpdating(true);
@@ -54,10 +55,10 @@ const CardBasic = () => {
       };
     
       fetchData(); 
-    }, []); 
+    }, []);
+
+
     
-
-
     return (
       <Grid container spacing={6}>
         <Grid item xs={12} sx={{ paddingBottom: 4 }}>
@@ -92,16 +93,15 @@ const CardBasic = () => {
           {cardAll.map((card) => (
             <Grid item xs={12} sm={5} md={2} sx={{paddingRight: '1px'}}>
               <EditionCard 
-                image={card?.metadata.image}
-                name={card?.metadata.name}
-                tokenId={card?.metadata.id}
-                description={card?.metadata.description}
-                skill={card?.metadata.skill}
-                cardAddress={card?.metadata.cardAddress}
+                image={card?.image}
+                name={card?.name}
+                tokenId={card?.id}
+                description={card?.description}
+                skill={card?.skill}
+                cardAddress={card?.cardAddress}
                 id={card?.id}
-                lister={card?.lister}
-                price={card?.price}
-                currencyName={card?.metadata.currencyName} />
+                lister={card?.uploader}
+                />
                 
             </Grid>
             ))}
@@ -111,4 +111,4 @@ const CardBasic = () => {
     );
   };
   
-  export default CardBasic;
+  export default PostCard;

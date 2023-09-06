@@ -12,9 +12,9 @@ import CardContent from '@mui/material/CardContent'
 // ** Modals
 import ListCard from '../../modals/list-card'
 
-const EditionCard = ({ image, name, tokenId, description, skill, cardAddress, id, lister, price, currencyName }) => {
+const EditionCard = ({ image, name, tokenId, skill, cardAddress, id, lister }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(lister)
+  console.log(cardAddress)
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -31,7 +31,7 @@ const EditionCard = ({ image, name, tokenId, description, skill, cardAddress, id
           {skill}
         </Typography>
         <Typography variant='body2'>
-          Posted by: {lister} 
+          Minted by: {lister} 
         </Typography>
       </CardContent>
       <Button
@@ -40,7 +40,7 @@ const EditionCard = ({ image, name, tokenId, description, skill, cardAddress, id
         onClick={openModal}
         disabled={lister !==   undefined} // Disable the button if lister has a value
       >
-        {lister !== '' ? price : 'List to store'} BEATS
+        List to store
       </Button>
     </Card>
   );

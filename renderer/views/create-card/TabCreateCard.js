@@ -55,7 +55,7 @@ const TabCreateCard = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const user = userStore();
 
-  const editionAddress = user.contracts[0]?.cardAddress
+  const editionAddress = user?.contracts?.cardAddress;
   const username = user.newUser?.safeProperties.username
 
   const onSubmit = async (data) => {
@@ -67,7 +67,7 @@ const TabCreateCard = () => {
         experience, healboost, 
         level, name, position, 
         position2 , quantity, 
-        rarity, scoreboost, skill, tier, star, breakthrough } = data
+        rarity, scoreboost, skill, tier, stars, breakthrough } = data
   
       const metadata = {
         name, era, 
@@ -75,7 +75,7 @@ const TabCreateCard = () => {
         healboost, level,
         experience, rarity,
         tier, position, 
-        position2, skill, star, breakthrough
+        position2, skill, stars, breakthrough
       }
       const supply = parseInt(quantity)
       const base64Image = base64
