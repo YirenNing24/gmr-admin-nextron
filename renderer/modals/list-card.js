@@ -35,10 +35,9 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
     const { register, handleSubmit, formState: { errors } } = useForm()
     const user = userStore();
     const username = user.user?.safeProperties.username
-    const cardMarketplaceAddress = user?.contracts.cardMarketplaceAddress
+    const cardMarketplaceAddress = user?.contracts[0]?.cardMarketplaceAddress
 
-
-    
+    console.log(username)
     const onSubmit = async (data) => {
       const { 
         assetContractAddress, tokenId, 
@@ -79,7 +78,7 @@ const ListCard = ({ cardAddress, tokenId, isOpen, onClose, id }) => {
         cardMarketplaceAddress 
       }
 
-      console.log(listing)
+
       await listCard(listing)
     }
 

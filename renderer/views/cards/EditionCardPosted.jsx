@@ -12,7 +12,7 @@ import CardContent from '@mui/material/CardContent'
 // ** Modals
 import ListCard from '../../modals/list-card'
 
-const EditionCard = ({ image, name, tokenId, skill, cardAddress, id, lister }) => {
+const EditionCardPosted = ({ image, name, tokenId, skill, cardAddress, id, lister }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   console.log(cardAddress)
   const openModal = () => {
@@ -31,7 +31,7 @@ const EditionCard = ({ image, name, tokenId, skill, cardAddress, id, lister }) =
           {skill}
         </Typography>
         <Typography variant='body2'>
-          Minted by: {lister} 
+          Listed by: {lister} 
         </Typography>
       </CardContent>
       <Button
@@ -46,4 +46,4 @@ const EditionCard = ({ image, name, tokenId, skill, cardAddress, id, lister }) =
   );
 };
 
-export default EditionCard
+export default EditionCardPosted
