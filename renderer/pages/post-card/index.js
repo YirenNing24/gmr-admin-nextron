@@ -1,13 +1,19 @@
+// ** React Imports
 import React, { useState, useEffect } from 'react';
+
+// ** MUI Imports
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import { Button } from '@mui/material';
-import { updateCardList, cardListAll, cardListPosted, cardListSold } from '../../server/stocks';
-import userStore from '../../../renderer/zustand/UserStore';
 import EditionCardOwned from '../../../renderer/views/cards/EditionCardOwned';
 import EditionCardPosted from '../../../renderer/views/cards/EditionCardPosted';
+
+// ** API and Store imports
+import { updateCardList, cardListAll, cardListPosted, cardListSold } from '../../server/stocks';
+import userStore from '../../../renderer/zustand/UserStore';
+
 
 const PostCard = () => {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -17,9 +23,6 @@ const PostCard = () => {
 
   const user = userStore();
   const editionAddress = user?.contracts?.cardAddress;
-
-
-
 
   const cardListUpdate = async () => {
     try {

@@ -32,10 +32,10 @@ const navigation = () => {
       openInNewTab: false
     },
     {
-      title: 'Post Pack',
+      title: 'Create Card Box',
       icon: AlertCircleOutline,
-      path: '/pages/error',
-      openInNewTab: true
+      path: '/create-card-box',
+      openInNewTab: false
     },
     {
       title: 'Auction Card',

@@ -15,7 +15,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 
 // ** Demo Tabs Imports
-import TabCreateCard from '../../../renderer/views/create-card/TabCreateCard'
+import TabCreateCardBox from '../../views/create-pack/TabCreateCardBox'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -38,7 +38,7 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
-const CreateCard = () => {
+const CreateCardBox = () => {
   // ** State
   const [value, setValue] = useState('account')
 
@@ -59,17 +59,17 @@ const CreateCard = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Create Card</TabName>
+                <TabName>Create Card Box</TabName>
               </Box>
             }
           />
         </TabList>
         <TabPanel sx={{ p: 0 }} value='account'>
-          <TabCreateCard/>
+          <TabCreateCardBox/>
         </TabPanel>
       </TabContext>
     </Card>
   )
 }
 
-export default CreateCard
+export default CreateCardBox

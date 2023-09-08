@@ -12,9 +12,9 @@ import CardContent from '@mui/material/CardContent'
 // ** Modals
 import ListCard from '../../modals/list-card'
 
-const EditionCardPosted = ({ image, name, tokenId, skill, cardAddress, id, lister }) => {
+const PackCardSelect = ({ image, name, tokenId, skill, cardAddress, id, uploader }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(cardAddress)
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -31,19 +31,19 @@ const EditionCardPosted = ({ image, name, tokenId, skill, cardAddress, id, liste
           {skill}
         </Typography>
         <Typography variant='body2'>
-          Listed by: {lister} 
+          Minted by: {uploader} 
         </Typography>
       </CardContent>
-      <Button
+      {/* <Button
         variant='contained'
         sx={{ py: 2.5, width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
         onClick={openModal}
-        disabled={lister !==   undefined} // Disable the button if lister has a value
+        disabled={uploader !==   undefined} // Disable the button if lister has a value
       >
         List to store
-      </Button>
+      </Button> */}
     </Card>
   );
 };
 
-export default EditionCardPosted
+export default PackCardSelect
