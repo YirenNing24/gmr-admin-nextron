@@ -88,7 +88,7 @@ const LoginPage = () => {
       await contracts() ])
       
     setUser(signIn)
-    setContracts(allContracts)
+    setContracts([allContracts])
      if (signIn.success) {
          router.push("/")
      }

@@ -3,7 +3,7 @@ import axios from "axios";
 export const updateContracts = async (contracts) => {
   const url = 'http://localhost:8081/admin/update-contracts';
   try {
-    const response = await axios.put(url, contracts, {
+    const response = await axios.post(url, contracts, {
       withCredentials: true
     });
 

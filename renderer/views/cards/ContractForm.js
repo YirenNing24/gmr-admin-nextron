@@ -1,6 +1,7 @@
 // ** React Imports
 import { forwardRef, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -26,6 +27,7 @@ const ContractForm = () => {
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
   const { setContracts } = userStore()
+  const router = useRouter()
 
   const onSubmit = async (data) => {
     setIsUploading(true);
@@ -50,7 +52,8 @@ const ContractForm = () => {
         thumpinAddress
       };
 
-        await updateContracts(contracts); 
+        await updateContracts(contracts);
+        router.push(router.asPath)
       } catch (error) {
         console.error('Error updating contract addresses', error);
       } finally {
@@ -75,6 +78,9 @@ const ContractForm = () => {
     if (loading) {
       return
     }
+
+
+    console.log(contractAddress)
 
   return (
     <Card>

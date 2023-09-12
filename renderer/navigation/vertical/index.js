@@ -79,6 +79,11 @@ const navigation = () => {
       title: 'Contracts',
       path: '/contracts'
     },
+    {
+      icon: CubeOutline,
+      title: 'Searches',
+      path: '/searches'
+    },
   ]
 }
 

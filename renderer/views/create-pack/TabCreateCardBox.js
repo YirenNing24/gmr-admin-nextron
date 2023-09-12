@@ -1,10 +1,10 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useForm } from 'react-hook-form';
 
 // ** API and UserStore
 import userStore from '../../zustand/UserStore';
-import { createCard } from '../../server/mint';
+import { createPack } from '../../server/mint';
 import { contracts } from '../../../renderer/server/contracts';
 
 // ** MUI Imports
@@ -19,9 +19,6 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
-
-// ** Modals
-import CreatePackCard from '../../../renderer/modals/create-pack-card';
 
 
 // ** Icons Imports
@@ -50,29 +47,42 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const TabCreateCardBox = () => {
-  // ** State
+  // ** States
   const [openAlert, setOpenAlert] = useState(true)
   const [imgSrc, setImgSrc] = useState('https://i.pinimg.com/1200x/07/c7/0f/07c70f7c0995496b522ca19513167016.jpg')
   const [base64, setBase64Image] = useState('')
   const [isUploading, setIsUploading] = useState(false)
   const [contractAddress, setContractAddress] = useState([])
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+  const [cardFields, setCardFields] = useState([
+    {
+      name: '',
+      tokenId: '',
+      quantityPerReward: '',
+      totalRewards: '',
+      assetContract: '',
+    },
+  ]);
+  
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
   const user = userStore();
 
-  const packAddress = user?.contracts?.packAddress;
-  const username = user.newUser?.safeProperties.username
+  const packAddress = user?.contracts[0].packAddress;
+  const uploader = user.newUser?.safeProperties.username
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const onSubmit = async (data) => {
+
+    const { currencyContractAddress } = data;
     setIsUploading(true);
 
+    console.log(data, 'tae')
     let currencyName = '';
     switch (currencyContractAddress) {
       case contractAddress[0].beatsAddress:
@@ -93,33 +103,62 @@ const TabCreateCardBox = () => {
     };
 
     try {
-      const {
-        description, era, 
-        experience, healboost, 
-        level, name, position, 
-        position2 , quantity, 
-        rarity, scoreboost, skill, tier, stars, breakthrough } = data
-  
-      const metadata = {
-        name, era, 
-        description,scoreboost, 
-        healboost, level,
-        experience, rarity,
-        tier, position, 
-        position2, skill, stars, breakthrough
-      }
-      const supply = parseInt(quantity)
-      const base64Image = base64
-      const uploader = username
-
-      await createCard(metadata, supply, base64Image, uploader, packAddress); 
+      await createPack(data, base64, cardFields, uploader, packAddress); 
     } catch (error) {
       console.error('Error creating card:', error);
     } finally {
       setIsUploading(false);
     }
   };
- 
+
+
+  const cardData = (data, fieldIndex) => {
+    const selectedCardName = data.name;
+    const tokenId = data.tokenId;
+    const assetContract = data.assetContract
+  
+    // Create a new array based on the current cardFields
+    const updatedFields = [...cardFields];
+  
+    // Update the specific card field with the selected card data
+    updatedFields[fieldIndex] = {
+      name: selectedCardName,
+      assetContract,
+      tokenId,
+    };
+  
+    // Set the updated cardFields state
+    setCardFields(updatedFields);
+  };
+
+  const addField = () => {
+    setCardFields([...cardFields, { quantityPerReward: '', totalRewards: '' }]);
+  };
+
+  const removeField = () => {
+    if (cardFields.length > 1) {
+      const newFields = [...cardFields];
+      newFields.pop();
+      setCardFields(newFields);
+    }
+  };
+
+  const handleFieldChange = (index, event) => {
+    const { name, value } = event.target;
+    const newFields = [...cardFields];
+    
+    if (name === 'card') {
+      // Update the "Card" field with the modal data's name
+      newFields[index].name = value;
+    } else {
+      // Update other cardFields as usual
+      newFields[index][name] = value;
+    }
+    
+    setCardFields(newFields);
+
+  };
+
   const onChange = (file) => {
     const reader = new FileReader();
     const { files } = file.target;
@@ -152,9 +191,8 @@ const TabCreateCardBox = () => {
     }
 
   return (
-
     <CardContent>
-      <CreatePackCard isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+      <CreateBoxCard isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} cardData={cardData}/>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
@@ -181,6 +219,12 @@ const TabCreateCardBox = () => {
             </Box>
           </Grid>
 
+          <Grid item xs={12} sm={12}>
+            <Typography variant='heading' sx={{ marginTop: 1 }}>
+                Card Details
+            </Typography>
+          </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField fullWidth name='card box name' label='Card box name' placeholder='Assorted all groups card box' 
             {...register('name', { required: 'Card box name is required' })}/>
@@ -192,11 +236,7 @@ const TabCreateCardBox = () => {
             {errors.description && <p>{errors.description.message}</p>}
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth name='Contents' label='Contents' placeholder='Enter card box contents separated by comma' 
-            {...register('contents', { required: 'Era is required' })}/>
-            {errors.contents && <p>{errors.contents.message}</p>}
-          </Grid>
+
 
            <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
@@ -225,51 +265,79 @@ const TabCreateCardBox = () => {
           </Grid> 
           
           <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Quantity per reward' placeholder='10'
+            <TextField fullWidth label='Quantity per reward' placeholder='10' type='number'
             {...register('quantityPerReward', { required: 'Quantity per reward is required' })}/>
             {errors.quantityPerReward && <p>{errors.quantityPerReward.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Quantity' placeholder='1000'
+            <TextField fullWidth label='Quantity' placeholder='1000' type='number'
             {...register('quantity', { required: 'Quantity is required' })}/>
             {errors.quantity && <p>{errors.quantity.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Total rewards' placeholder='10000'
+            <TextField fullWidth label='Total rewards' placeholder='10000' type='number'
             {...register('totalRewards', { required: 'Total rewards is required' })}/>
             {errors.totalRewards && <p>{errors.totalRewards.message}</p>}
+          </Grid>
+          {cardFields.map((field, index) => (
+          <Fragment>
+
+            <Grid item xs={12} sm={12}>
+              <Typography variant='heading' sx={{ marginTop: 1 }}>
+                Card Reward {index + 1}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Card'
+                placeholder='Choose a card'
+                name={`card-${index}`} // Use a unique identifier
+                value={field.name}
+                onChange={(event) => handleFieldChange(index, event)}
+                onClick={() => openModal(index)} // Pass the index here
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Quantity per reward'
+                placeholder='10'
+                name='quantityPerReward'
+                value={field.quantityPerReward}
+                onChange={(event) => handleFieldChange(index, event)}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Total rewards'
+                placeholder='10000'
+                name='totalRewards'
+                value={field.totalRewards}
+                onChange={(event) => handleFieldChange(index, event)}
+              />
+            </Grid>
+            
+          </Fragment>
+          
+          ))}
+
+          <Grid item xs={12} sm={6}>
+            <Button variant="outlined" onClick={addField}>Add Field</Button>
+            {cardFields.length > 1 && <span style={{ marginLeft: '10px' }}></span>}
+            {cardFields.length > 1 && <Button variant="outlined" onClick={removeField}>Remove Field</Button>}
           </Grid>
 
           <Grid item xs={12} sm={12}>
             <Typography variant='heading' sx={{ marginTop: 1 }}>
-                Card Reward
+                Card Constants
             </Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Card' placeholder='Choose a card' onClick={openModal}
-              {...register('card', { required: 'Card is required' })}/>
-              {errors.card && <p>{errors.card.message}</p>}
-          </Grid> 
-
-          <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Quantity per reward' placeholder='10'
-            {...register('quantityPerReward', { required: 'Quantity per reward is required' })}/>
-            {errors.quantityPerReward && <p>{errors.quantityPerReward.message}</p>}
-          </Grid>
-
-          <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Quantity' placeholder='1000'
-            {...register('quantity', { required: 'Quantity is required' })}/>
-            {errors.quantity && <p>{errors.quantity.message}</p>}
-          </Grid>
-
-          <Grid item xs={12} sm={3}>
-            <TextField fullWidth label='Total rewards' placeholder='10000'
-            {...register('totalRewards', { required: 'Total rewards is required' })}/>
-            {errors.totalRewards && <p>{errors.totalRewards.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -288,6 +356,7 @@ const TabCreateCardBox = () => {
             <Button type='submit' variant='contained' sx={{ marginRight: 3.5 }} disabled={isUploading}>
               {isUploading ? 'Please Wait...' : 'Submit'}
             </Button>
+
             <Button type='reset' variant='outlined'>
               Reset
             </Button>

@@ -1,10 +1,11 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 
 // ** API and UserStore
 import userStore from '../../../renderer/zustand/UserStore';
 import { createCard } from '../../../renderer/server/mint';
+import { contracts } from '../../../renderer/server/contracts';
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -50,13 +51,16 @@ const TabCreateCard = () => {
   const [imgSrc, setImgSrc] = useState('https://i.pinimg.com/1200x/07/c7/0f/07c70f7c0995496b522ca19513167016.jpg')
   const [base64, setBase64Image] = useState('')
   const [isUploading, setIsUploading] = useState(false)
+  const [contractAddress, setContractAddress] = useState([])
+  const [loading, setLoading] = useState(true);
 
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
   const user = userStore();
 
-  const editionAddress = user?.contracts?.cardAddress;
+  const editionAddress = contractAddress[0]?.cardAddress;
   const username = user.newUser?.safeProperties.username
+  
 
   const onSubmit = async (data) => {
     setIsUploading(true);
@@ -81,6 +85,8 @@ const TabCreateCard = () => {
       const base64Image = base64
       const uploader = username
 
+      console.log(base64Image)
+
       await createCard(metadata, supply, base64Image, uploader, editionAddress); 
     } catch (error) {
       console.error('Error creating card:', error);
@@ -101,6 +107,24 @@ const TabCreateCard = () => {
       reader.readAsDataURL(files[0]);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allContracts = await contracts();
+        setContractAddress(allContracts);
+        setLoading(false); 
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData(); 
+  }, []);
+
+    if (loading) {
+      return
+    }
 
   return (
     <CardContent>

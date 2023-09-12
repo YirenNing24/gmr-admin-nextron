@@ -5,21 +5,21 @@ import Grid from '@mui/material/Grid'
 import DatePickerWrapper from '../../../renderer/@core/styles/libs/react-datepicker'
 
 // ** Components Imports
-import ContractForm from '../../../renderer/views/cards/ContractForm'
+import SearchesForm from '../../../renderer/views/cards/SearchesForm'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
 
-const Contracts = () => {
+const Searches = () => {
   return (
     <DatePickerWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <ContractForm />
+          <SearchesForm />
         </Grid>
       </Grid>
     </DatePickerWrapper>
   )
 }
 
-export default Contracts
+export default Searches
