@@ -17,7 +17,7 @@ import { searchIndex } from '../../../renderer/server/search'
 
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
+
   { id: 'uid', label: 'UID', minWidth: 100 },
   {
     id: 'createdAt',
@@ -39,11 +39,18 @@ const columns = [
     minWidth: 170,
     align: 'right',
     format: value => value.toFixed(2)
+  },
+  {
+    id: 'numberOfDocuments',
+    label: 'Population',
+    minWidth: 170,
+    align: 'right',
+    format: value => value.toFixed(2)
   }
 ]
 
-function createData(name, uid, createdAt, updatedAt, primaryKey) {
-  return { name, uid, createdAt, updatedAt, primaryKey }
+function createData(uid, createdAt, updatedAt, primaryKey, numberOfDocuments) {
+  return {uid, createdAt, updatedAt, primaryKey, numberOfDocuments }
 }
 
 const TableSearchIndexes = () => {
@@ -65,12 +72,14 @@ const TableSearchIndexes = () => {
     const fetchData = async () => {
       try {
         const allIndexes = await searchIndex()
+        console.log(allIndexes)
         const formattedRows = allIndexes.map(index => createData(
-          index.name,
+
           index.uid,
           new Date(index.createdAt).toLocaleString('en-US'),
           new Date(index.updatedAt).toLocaleString('en-US'),
-          index.primaryKey
+          index.primaryKey,
+          index.numberOfDocuments
         ))
         setRows(formattedRows)
         setLoading(false)

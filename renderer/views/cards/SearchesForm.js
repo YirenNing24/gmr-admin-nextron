@@ -13,25 +13,34 @@ import Button from '@mui/material/Button'
 import TableSearchIndexes from '../../../renderer/views//tables/TableSearchIndexes'
 
 // ** Modals
-import AddIndex from '../../../renderer/modals/add-index'
+import CreateIndex from '../../modals/create-index'
+import DeleteIndex from '../../modals/delete-index'
 
 const SearchesForm = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     const openModal = () => {
         setIsModalOpen(true);
       };
+
+      const openDeleteModal = () => {
+        setIsDeleteModalOpen(true);
+      };
     
 
-    
   return (
     <Grid container spacing={6}>
-        <AddIndex isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <CreateIndex isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <DeleteIndex isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
       <Grid item xs={12}>
         <Typography variant='h5'>
             Search indexes and other search settings
-            <Button size='small' type='submit' sx={{ ml: 2 }} variant='outlined' onClick={openModal} disabled={''}>
+            <Button size='small' type='submit' sx={{ ml: 2 }} variant='outlined' onClick={openModal}>
                 ADD NEW INDEX
+            </Button>
+            <Button size='small' type='submit' sx={{ ml: 160 }}  onClick={openDeleteModal}>
+                DELETE INDEX
             </Button>
         </Typography>
         <Typography variant='body2'>

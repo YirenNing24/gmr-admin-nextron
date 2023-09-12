@@ -19,3 +19,47 @@ export const searchIndex = async () => {
     throw error;
   }
 };
+
+
+export const createIndex = async (indexName, primaryKey) => {
+    const url = 'http://localhost:8081/admin/create-index';
+  
+    try {
+      const response = await axios.post(
+        url,
+        { 
+          indexName,
+          primaryKey
+        },
+        {
+          withCredentials: true
+        }
+      );
+      console.log("Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
+
+  export const deleteIndex = async (indexName) => {
+    const url = 'http://localhost:8081/admin/delete-index';
+  
+    try {
+      const response = await axios.post(
+        url,
+        { 
+          indexName
+        },
+        {
+          withCredentials: true
+        }
+      );
+      console.log("Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
