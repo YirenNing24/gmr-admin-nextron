@@ -19,7 +19,7 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
-
+import CreateBoxCard from '../../../renderer/modals/create-box-card';
 
 // ** Icons Imports
 const ImgStyled = styled('img')(({ theme }) => ({
@@ -46,6 +46,16 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
+const fieldsCard = [
+  {
+    name: '',
+    tokenId: '',
+    quantityPerReward: '',
+    totalRewards: '',
+    assetContract: '',
+  },
+]
+
 const TabCreateCardBox = () => {
   // ** States
   const [openAlert, setOpenAlert] = useState(true)
@@ -54,17 +64,8 @@ const TabCreateCardBox = () => {
   const [isUploading, setIsUploading] = useState(false)
   const [contractAddress, setContractAddress] = useState([])
   const [loading, setLoading] = useState(true);
-
-
-  const [cardFields, setCardFields] = useState([
-    {
-      name: '',
-      tokenId: '',
-      quantityPerReward: '',
-      totalRewards: '',
-      assetContract: '',
-    },
-  ]);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [cardFields, setCardFields] = useState(fieldsCard);
   
   // ** Hooks
   const { register, handleSubmit, formState: { errors } } = useForm()
