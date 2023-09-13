@@ -11,12 +11,13 @@ import Button from '@mui/material/Button'
 
 // ** Demo Components Imports
 import TableSearchIndexes from '../../../renderer/views//tables/TableSearchIndexes'
+import TablePlayers from '../tables/TablePlayers'
 
 // ** Modals
 import CreateIndex from '../../modals/create-index'
 import DeleteIndex from '../../modals/delete-index'
 
-const SearchesForm = () => {
+const PlayersList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -35,22 +36,16 @@ const SearchesForm = () => {
         <DeleteIndex isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} />
       <Grid item xs={12}>
         <Typography variant='h5'>
-            Search indexes and other search settings
-            <Button size='small' type='submit' sx={{ ml: 2 }} variant='outlined' onClick={openModal}>
-                ADD NEW INDEX
-            </Button>
-            <Button size='small' type='submit' sx={{ ml: 160 }}  onClick={openDeleteModal}>
-                DELETE INDEX
-            </Button>
+            Player account operations
+
         </Typography>
         <Typography variant='body2'> 
-            Admin and user search indexes settings
+            player settings, management, and operations
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Active Indexes' titleTypographyProps={{ variant: 'h6' }} />
-          <TableSearchIndexes />
+          <TablePlayers />
         </Card>
       </Grid>
 
@@ -58,4 +53,4 @@ const SearchesForm = () => {
   )
 }
 
-export default SearchesForm
+export default PlayersList 

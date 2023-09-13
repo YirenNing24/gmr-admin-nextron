@@ -44,12 +44,12 @@ const navigation = () => {
       openInNewTab: true
     },
     {
-      sectionTitle: 'Player management'
+      sectionTitle: 'Players and game management'
     },
     {
-      title: 'Beatmap Maker',
+      title: 'Players',
       icon: FormatLetterCase,
-      path: '/beatmap-maker'
+      path: '/players'
     },
     {
       title: 'Icons',

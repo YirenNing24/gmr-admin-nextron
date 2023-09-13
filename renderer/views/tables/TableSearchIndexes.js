@@ -49,7 +49,7 @@ const columns = [
   }
 ]
 
-function createData(uid, createdAt, updatedAt, primaryKey, numberOfDocuments) {
+const createData = (uid, createdAt, updatedAt, primaryKey, numberOfDocuments) => {
   return {uid, createdAt, updatedAt, primaryKey, numberOfDocuments }
 }
 
@@ -72,7 +72,6 @@ const TableSearchIndexes = () => {
     const fetchData = async () => {
       try {
         const allIndexes = await searchIndex()
-        console.log(allIndexes)
         const formattedRows = allIndexes.map(index => createData(
 
           index.uid,

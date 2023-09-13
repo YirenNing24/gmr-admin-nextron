@@ -14,7 +14,6 @@ import Slide from '@mui/material/Slide';
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 
-
 // ** Userstore and API
 import userStore from '../zustand/UserStore';
 import { deleteIndex } from '../../renderer/server/search';
