@@ -4,7 +4,7 @@ export const login = async (username, password) => {
   const url = 'http://localhost:8081/admin/login';
 
   try {
-    const response = await axios.put(
+    const response = await axios.post(
       url,
       {
         username,
