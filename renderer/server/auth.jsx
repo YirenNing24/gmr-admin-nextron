@@ -1,7 +1,8 @@
 import axios from "axios";
+import { host } from "./config";
 
 export const login = async (username, password) => {
-  const url = 'http://localhost:8081/admin/login';
+  const url = `http://${host}:8081/admin/login`;
 
   try {
     const response = await axios.post(
@@ -24,7 +25,7 @@ export const login = async (username, password) => {
 
 
 export const logout = async () => {
-  const url = 'http://localhost:8081/admin/logout';
+  const url = `http://${host}:8081/admin/logout`;
   try {
       const response = await axios.get(
           url,

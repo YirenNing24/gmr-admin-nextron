@@ -1,7 +1,7 @@
 import axios from "axios";
-
+import { host } from "./config";
 export const updateCardList = async (editionAddress) => {
-  const url = 'http://localhost:8081/admin/card-list-update';
+  const url = `http://${host}:8081/admin/card-list-update`;
   try {
     const response = await axios.put(url, {
       withCredentials: true,
@@ -18,7 +18,7 @@ export const updateCardList = async (editionAddress) => {
 
 
 export const cardListAll = async () => {
-  const url = 'http://localhost:8081/admin/card-list-all';
+  const url = `http://${host}:8081/admin/card-list-all`;
   try {
     const response = await axios.get(url, {
       withCredentials: true
@@ -33,7 +33,7 @@ export const cardListAll = async () => {
 
 
 export const cardListPosted = async () => {
-  const url = 'http://localhost:8081/admin/card-list-posted';
+  const url = `http://${host}:8081/admin/card-list-posted`;
   try {
     const response = await axios.get(url, {
       withCredentials: true

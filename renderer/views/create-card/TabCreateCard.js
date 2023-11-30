@@ -196,6 +196,18 @@ const TabCreateCard = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
+            <TextField type='number' fullWidth name='boostcount' label='Boost Count' placeholder='0' 
+              {...register('boostcount', { required: 'boostcount is required' })}/>
+              {errors.heal && <p>{errors.boostCount.message}</p>}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField type='number' fullWidth name='awakenCount' label='Awaken Count' placeholder='0' 
+              {...register('awakencount', { required: 'Awaken Count is required' })}/>
+              {errors.heal && <p>{errors.awakencount.message}</p>}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel>Skill</InputLabel>
               <Select name='skill' label='Skill' defaultValue='doubleUp'
@@ -265,15 +277,15 @@ const TabCreateCard = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField type='number' name='level' fullWidth label='Level' placeholder='0' defaultValue="1"
+            <TextField type='number' name='level' fullWidth label='Level' placeholder='0'
               {...register('level', { required: 'Level is required' })}/>
               {errors.level && <p>{errors.level.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField type='number' name='experience' fullWidth label='Experience' placeholder='0' defaultValue="0"
-              {...register('experience', { required: 'Experience is required' })}/>
-              {errors.experience && <p>{errors.experience.message}</p>}
+            <TextField fullWidth name='experience' label='Experience' placeholder='0' 
+            {...register('experience', { required: 'Expeerience is required' })}/>
+            {errors.position && <p>{errors.experience.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>

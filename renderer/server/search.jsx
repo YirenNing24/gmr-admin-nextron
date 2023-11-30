@@ -1,7 +1,8 @@
 import axios from "axios";
-
+import { host
+ } from "./config";
 export const searchIndex = async () => {
-  const url = 'http://localhost:8081/admin/search-indexes';
+  const url = `http://${host}:8081/admin/search-indexes`;
 
   try {
     const response = await axios.get(
@@ -22,7 +23,7 @@ export const searchIndex = async () => {
 
 
 export const createIndex = async (indexName, primaryKey) => {
-    const url = 'http://localhost:8081/admin/create-index';
+    const url = `http://${host}:8081/admin/create-index`;
   
     try {
       const response = await axios.post(

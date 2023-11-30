@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { host } from './config';
 
 export const createCard = async (metadata, supply, base64Image, uploader, editionAddress) => {
-    const url = 'http://localhost:8081/admin/create-card';
+    const url = `http://${host}:8081/admin/create-card`;
     try {
         const response = await axios.post(
             url,
@@ -28,7 +29,7 @@ export const createCard = async (metadata, supply, base64Image, uploader, editio
 
 
 export const createPack = async (data, base64, cardFields, uploader, packAddress) => {
-    const url = 'http://localhost:8081/admin/create-card-box';
+    const url = `http://${host}:8081/admin/create-card-box`;
     try {
         const response = await axios.post(
             url,

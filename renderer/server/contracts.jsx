@@ -1,7 +1,8 @@
 import axios from "axios";
+import { host } from "./config";
 
 export const updateContracts = async (contracts) => {
-  const url = 'http://localhost:8081/admin/update-contracts';
+  const url = `http://${host}:8081/admin/update-contracts`;
   try {
     const response = await axios.post(url, contracts, {
       withCredentials: true
@@ -17,7 +18,7 @@ export const updateContracts = async (contracts) => {
 
 
 export const contracts = async () => {
-    const url = 'http://localhost:8081/admin/contracts';
+    const url = `http://${host}:8081/admin/contracts`;
     try {
       const response = await axios.get(url, {
         withCredentials: true
