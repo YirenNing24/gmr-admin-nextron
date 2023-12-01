@@ -70,7 +70,7 @@ const TabCreateCard = () => {
         experience, healboost, 
         level, name, position, 
         position2 , quantity, 
-        rarity, scoreboost, skill, tier, stars, breakthrough, awakencount, boostcount } = data
+        rarity, scoreboost, skill, tier, stars, breakthrough, awakencount, boostcount, slot } = data
   
       const metadata = {
         name, era, group, 
@@ -78,15 +78,14 @@ const TabCreateCard = () => {
         healboost, level,
         experience, rarity,
         tier, position, 
-        position2, skill, stars, breakthrough, awakencount, boostcount
+        position2, skill, stars, breakthrough, 
+        awakencount, boostcount, slot
       }
       const supply = parseInt(quantity)
       const base64Image = base64
       const uploader = username
 
-
-      console.log(metadata)
-      // await createCard(metadata, supply, base64Image, uploader, editionAddress); 
+      await createCard(metadata, supply, base64Image, uploader, editionAddress); 
     } catch (error) {
       console.error('Error creating card:', error);
     } finally {
@@ -211,6 +210,12 @@ const TabCreateCard = () => {
             <TextField type='number' fullWidth name='awakencount' label='Awaken Count' placeholder='0' 
               {...register('awakencount', { required: 'Awaken Count is required' })}/>
               {errors.awakencount && <p>{errors.awakencount.message}</p>}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField type='text' fullWidth name='slot' label='Slot' placeholder='Wonyoung' 
+              {...register('slot', { required: 'Slot is required' })}/>
+              {errors.slot && <p>{errors.slot.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
