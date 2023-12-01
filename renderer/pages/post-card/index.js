@@ -57,9 +57,6 @@ const PostCard = () => {
     fetchData();
   }, []);
 
-
-  console.log(cardPosted)
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>

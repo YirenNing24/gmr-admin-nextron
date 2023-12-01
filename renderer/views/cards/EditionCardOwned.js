@@ -14,7 +14,7 @@ import ListCard from '../../modals/list-card'
 
 const EditionCardOwned = ({ image, name, tokenId, skill, cardAddress, id, uploader }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(cardAddress)
+
   const openModal = () => {
     setIsModalOpen(true);
   };

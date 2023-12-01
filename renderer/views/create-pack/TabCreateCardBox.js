@@ -83,7 +83,6 @@ const TabCreateCardBox = () => {
     const { currencyContractAddress } = data;
     setIsUploading(true);
 
-    console.log(data, 'tae')
     let currencyName = '';
     switch (currencyContractAddress) {
       case contractAddress[0].beatsAddress:

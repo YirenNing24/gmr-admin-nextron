@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 
 // ** API and UserStore
-import userStore from '../../../renderer/zustand/UserStore';
-import { createCard } from '../../../renderer/server/mint';
-import { contracts } from '../../../renderer/server/contracts';
+import userStore from '../../zustand/UserStore';
+import { createCard } from '../../server/mint';
+import { contracts } from '../../server/contracts';
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -59,9 +59,8 @@ const TabCreateCard = () => {
   const user = userStore();
 
   const editionAddress = contractAddress[0]?.cardAddress;
-  const username = user.newUser?.safeProperties.username
+  const username = user.user?.safeProperties.username
   
-
   const onSubmit = async (data) => {
     setIsUploading(true);
 
@@ -71,7 +70,7 @@ const TabCreateCard = () => {
         experience, healboost, 
         level, name, position, 
         position2 , quantity, 
-        rarity, scoreboost, skill, tier, stars, breakthrough } = data
+        rarity, scoreboost, skill, tier, stars, breakthrough, awakencount, boostcount } = data
   
       const metadata = {
         name, era, 
@@ -79,13 +78,11 @@ const TabCreateCard = () => {
         healboost, level,
         experience, rarity,
         tier, position, 
-        position2, skill, stars, breakthrough
+        position2, skill, stars, breakthrough, awakencount, boostcount
       }
       const supply = parseInt(quantity)
       const base64Image = base64
       const uploader = username
-
-      console.log(base64Image)
 
       await createCard(metadata, supply, base64Image, uploader, editionAddress); 
     } catch (error) {
@@ -192,19 +189,19 @@ const TabCreateCard = () => {
           <Grid item xs={12} sm={6}>
             <TextField type='number' fullWidth name='healboost' label='Heal Boost' placeholder='10' 
               {...register('healboost', { required: 'Healboost is required' })}/>
-              {errors.heal && <p>{errors.healboost.message}</p>}
+              {errors.healboost && <p>{errors.healboost.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField type='number' fullWidth name='boostcount' label='Boost Count' placeholder='0' 
               {...register('boostcount', { required: 'boostcount is required' })}/>
-              {errors.heal && <p>{errors.boostCount.message}</p>}
+              {errors.boostcount && <p>{errors.boostcount.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField type='number' fullWidth name='awakenCount' label='Awaken Count' placeholder='0' 
+            <TextField type='number' fullWidth name='awakencount' label='Awaken Count' placeholder='0' 
               {...register('awakencount', { required: 'Awaken Count is required' })}/>
-              {errors.heal && <p>{errors.awakencount.message}</p>}
+              {errors.awakencount && <p>{errors.awakencount.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>

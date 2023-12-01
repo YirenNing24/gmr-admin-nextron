@@ -79,9 +79,6 @@ const ContractForm = () => {
       return
     }
 
-
-    console.log(contractAddress)
-
   return (
     <Card>
       <CardHeader title='Contract addresses and other chain constants' titleTypographyProps={{ variant: 'h6' }} />
