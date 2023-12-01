@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 // ** Next Imports
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** MUI Components
@@ -22,9 +21,9 @@ import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** API & Store
-import { login } from '../../../../renderer/server/auth'
-import { contracts } from '../../../../renderer/server/contracts'
-import userStore from '../../../../renderer/zustand/UserStore'
+import { login } from '../../server/auth'
+import { contracts } from '../../server/contracts'
+import userStore from '../../zustand/UserStore'
 
 
 // ** Icons Imports
@@ -32,13 +31,13 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Configs
-import themeConfig from '../../../../renderer/configs/themeConfig'
+import themeConfig from '../../configs/themeConfig'
 
 // ** Layout Import
-import BlankLayout from '../../../@core/layouts/BlankLayout'
+import BlankLayout from '../../@core/layouts/BlankLayout'
 
 // ** Demo Imports
-import FooterIllustrationsV1 from '../../../../renderer/views/pages/auth/FooterIllustration'
+import FooterIllustrationsV1 from '../../views/pages/auth/FooterIllustration'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -172,10 +171,10 @@ const LoginPage = () => {
             </Typography>
           </Box>
           <Box sx={{ mb: 6 }}>
-            <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+            <Typography variant='h5' sx={{ ml: 8, fontWeight: 600, marginBottom: 1.5 }}>
               Welcome to {themeConfig.templateName}! 👋🏻
             </Typography>
-            <Typography variant='body2'>Please sign-in to your account and start the fun!</Typography>
+            <Typography variant='body2' sx={{ ml: 7 }} >Please sign-in to your account and start the fun!</Typography>
           </Box>
           <form autoComplete='on' onSubmit={handleSubmit(onSubmit)}>
             <TextField autoFocus fullWidth id='username' label='Username' sx={{ marginBottom: 4 }} 

@@ -46,7 +46,7 @@ export const createIndex = async (indexName, primaryKey) => {
 
 
 export const deleteIndex = async (indexName) => {
-    const url = 'http://localhost:8081/admin/delete-index';
+    const url = `http://${host}:8081/admin/delete-index`;
   
     try {
       const response = await axios.delete(
@@ -68,7 +68,7 @@ export const deleteIndex = async (indexName) => {
 
 
 export const getDocuments = async (indexName) => {
-    const url = 'http://localhost:8081/admin/get-documents';
+    const url = `http://${host}:8081/admin/get-documents`;
 
     try {
       const response = await axios.post(

@@ -50,7 +50,7 @@ const UserDropdown = () => {
 
    useEffect(() => {
      if (!user.newUser && !user.user) {
-         router.push('/pages/login');
+         router.push('/login');
      }
    }, []);
   
@@ -163,7 +163,7 @@ const UserDropdown = () => {
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
         </MenuItem>
         <Divider />
-        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/pages/login')}>
+        <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>

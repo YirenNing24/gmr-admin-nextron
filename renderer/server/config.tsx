@@ -1,1 +1,0 @@
-export const host: string = '192.168.4.117'

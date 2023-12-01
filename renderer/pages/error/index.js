@@ -1,8 +1,8 @@
 // ** Layout Import
-import BlankLayout from '../../../../renderer/@core/layouts/BlankLayout'
+import BlankLayout from '../../@core/layouts/BlankLayout'
 
 // ** Component Import
-import Error404 from '../../../../renderer/pages/404'
+import Error404 from '../404'
 
 const ErrorPage = () => <Error404 />
 ErrorPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
