@@ -300,6 +300,12 @@ const TabCreateCard = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
+            <TextField fullWidth name='experience' label='Experience' placeholder='0' 
+            {...register('experience', { required: 'Expeerience is required' })}/>
+            {errors.position && <p>{errors.experience.message}</p>}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
             <TextField type='number' name='quantity' fullWidth label='Quantity' placeholder='100'
               {...register('quantity', { required: 'Quantity is required' })}/>
               {errors.quantity && <p>{errors.quantity.message}</p>}
