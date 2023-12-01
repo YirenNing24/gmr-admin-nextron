@@ -66,14 +66,14 @@ const TabCreateCard = () => {
 
     try {
       const {
-        description, era, 
+        description, group, era, 
         experience, healboost, 
         level, name, position, 
         position2 , quantity, 
         rarity, scoreboost, skill, tier, stars, breakthrough, awakencount, boostcount } = data
   
       const metadata = {
-        name, era, 
+        name, era, group, 
         description,scoreboost, 
         healboost, level,
         experience, rarity,
@@ -84,7 +84,9 @@ const TabCreateCard = () => {
       const base64Image = base64
       const uploader = username
 
-      await createCard(metadata, supply, base64Image, uploader, editionAddress); 
+
+      console.log(metadata)
+      // await createCard(metadata, supply, base64Image, uploader, editionAddress); 
     } catch (error) {
       console.error('Error creating card:', error);
     } finally {
@@ -156,10 +158,17 @@ const TabCreateCard = () => {
             {...register('name', { required: 'Card Name is required' })}/>
             {errors.name && <p>{errors.name.message}</p>}
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField fullWidth name='description' label='Description' placeholder='Leeseo is really really...'
             {...register('description', { required: 'Description is required' })}/>
             {errors.description && <p>{errors.description.message}</p>}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField fullWidth name='group' label='Group' placeholder='Ive'
+            {...register('group', { required: 'group is required' })}/>
+            {errors.group && <p>{errors.group.message}</p>}
           </Grid>
 
           <Grid item xs={12} sm={6}>
