@@ -32,7 +32,7 @@ const navigation = () => {
       openInNewTab: false
     },
     {
-      title: 'Create Card Box',
+      title: 'Create Card Bundle',
       icon: AlertCircleOutline,
       path: '/create-card-box',
       openInNewTab: false
